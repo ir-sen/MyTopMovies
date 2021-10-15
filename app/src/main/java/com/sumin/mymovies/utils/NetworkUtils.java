@@ -25,6 +25,10 @@ public class NetworkUtils {
     private static final String PARAMS_LANGUAGE = "language";
     private static final String PARAMS_SORT_BY = "sort_by";
     private static final String PARAMS_PAGE = "page";
+    private static final String PARAMS_MIN_VOTE_COUNT = "vote_count.gte";
+    private static final String MIN_VOTE_COUNT_VALUE = "1000";
+
+
 
     private static final String API_KEY = "3811dffbd8bc87f702dad54554f272a9";
     private static final String LANGUAGE_VALUE = "ru-RU";
@@ -73,6 +77,7 @@ public class NetworkUtils {
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
                 .appendQueryParameter(PARAMS_LANGUAGE, LANGUAGE_VALUE)
                 .appendQueryParameter(PARAMS_SORT_BY, methodOfSort)
+                .appendQueryParameter(PARAMS_MIN_VOTE_COUNT, MIN_VOTE_COUNT_VALUE)
                 .appendQueryParameter(PARAMS_PAGE, Integer.toString(page))
                 .build();
         try {
