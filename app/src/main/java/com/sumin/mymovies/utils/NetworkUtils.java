@@ -52,7 +52,6 @@ public class NetworkUtils {
     private static URL buildURLToReviews(int id) {
         Uri uri = Uri.parse(String.format(BASE_URL_REVIEWS, id)).buildUpon()
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
-                .appendQueryParameter(PARAMS_LANGUAGE, LANGUAGE_VALUE)
                 .build();
         try {
             return new URL (uri.toString());
