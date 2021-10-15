@@ -133,5 +133,22 @@
         app:layout_constraintVertical_bias="0.743"
         app:srcCompat="@drawable/favourite_remove" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewTrailer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOverview" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewReviews"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTrailer" />
+
+
 </android.support.constraint.ConstraintLayout>
 </ScrollView>
