@@ -3,6 +3,7 @@ package com.sumin.mymovies;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -117,7 +118,8 @@ public class DetailActivity extends AppCompatActivity {
         trailerAdapter.setOnTrailerClickListener(new TrailerAdapter.OnTrailerClickListener() {
             @Override
             public void onTrailerClick(String url) {
-                Toast.makeText(DetailActivity.this, url, Toast.LENGTH_SHORT).show();
+                Intent intentToTrailer = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(intentToTrailer);
             }
         });
         recyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));

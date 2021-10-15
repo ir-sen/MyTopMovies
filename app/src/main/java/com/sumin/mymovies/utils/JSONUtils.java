@@ -1,5 +1,7 @@
 package com.sumin.mymovies.utils;
 
+import android.util.Log;
+
 import com.sumin.mymovies.data.Movie;
 import com.sumin.mymovies.data.Review;
 import com.sumin.mymovies.data.Trailer;
@@ -16,7 +18,7 @@ public class JSONUtils {
     // для отзывов
     private static final String KEY_AUTHOR = "author";
     private static final String KEY_CONTENT = "content";
-    private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v";
+    private static final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
     // Для видео
     private static final String KEY_KEY_OF_VIDEO = "key";
