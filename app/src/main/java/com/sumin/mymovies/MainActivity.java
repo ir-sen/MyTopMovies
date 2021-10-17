@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private MovieAdapter movieAdapter;
     private TextView textViewTopRated;
     private TextView textViewPopularity;
+    private ProgressBar progressBarLoading;
 
     private MainViewModel viewModel;
 
@@ -85,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switchSort = findViewById(R.id.switchSort);
         textViewPopularity = findViewById(R.id.textViewPopularity);
         textViewTopRated = findViewById(R.id.textViewTopRated);
+        progressBarLoading = findViewById(R.id.progressBarLoading);
         recyclerViewPosters = findViewById(R.id.recyclerViewPosters);
         recyclerViewPosters.setLayoutManager(new GridLayoutManager(this, 2));
         movieAdapter = new MovieAdapter();
@@ -121,7 +124,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
-
+                if (page == 1) {
+                    movieAdapter.setMovies(movies);
+                }
             }
         });
     }
@@ -163,7 +168,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         jsonLoader.setOnStartLoadingListener(new NetworkUtils.JSONLoader.OnStartLoadingListener() {
             @Override
             public void onStartLoading() {
-                 isLoading = true;
+                progressBarLoading.setVisibility(View.VISIBLE);
+                isLoading = true;
             }
         });
         return jsonLoader;
@@ -173,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject jsonObject) {
         ArrayList<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
         if (movies != null && !movies.isEmpty()) {
+            if (page == 1) {
+                viewModel.deleteAllMovies();
+                movieAdapter.clear();
+            }
             viewModel.deleteAllMovies();
             for (Movie movie : movies) {
                 viewModel.insertMovie(movie);
@@ -181,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             page++;
         }
         isLoading = false;
+        progressBarLoading.setVisibility(View.INVISIBLE);
         loaderManager.destroyLoader(LOADER_ID);
     }
 

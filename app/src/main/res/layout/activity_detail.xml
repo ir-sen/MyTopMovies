@@ -135,6 +135,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewTrailer"
+        android:nestedScrollingEnabled="false"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -143,6 +144,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewReviews"
+        android:nestedScrollingEnabled="false"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
