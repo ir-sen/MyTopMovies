@@ -61,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="@string/no_download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
         app:layout_constraintTop_toBottomOf="@+id/textViewOriginalTitle" />
@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Дата выхода:"
+        android:text="@string/date_relis"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRating" />
 
@@ -80,7 +80,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="@string/no_download"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineCenter"
         app:layout_constraintTop_toBottomOf="@+id/textViewRating" />
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Описание: "
+        android:text="@string/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRealiseDate" />
 
@@ -99,7 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="TextView"
+        android:text="@string/no_download"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLableDescription" />
 

@@ -108,13 +108,16 @@ public class DetailActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         movie = viewModel.getMovieById(id);
-        Picasso.get().load(movie.getBigPosterPath()).into(imageViewBigPoster);
-        textViewTitle.setText(movie.getTitle());
-        textViewOriginalTitle.setText(movie.getOriginalTitle());
-        textViewOverview.setText(movie.getOverview());
-        textViewReleaseDate.setText(movie.getReleaseDate());
-        textViewRating.setText(Double.toString(movie.getVoteAverage()));
-        setFavoriteMovie();
+        try {
+            Picasso.get().load(movie.getBigPosterPath()).into(imageViewBigPoster);
+
+            textViewTitle.setText(movie.getTitle());
+            textViewOriginalTitle.setText(movie.getOriginalTitle());
+            textViewOverview.setText(movie.getOverview());
+            textViewReleaseDate.setText(movie.getReleaseDate());
+            textViewRating.setText(Double.toString(movie.getVoteAverage()));
+            setFavoriteMovie();
+
 
         recyclerViewTrailers = findViewById(R.id.recyclerViewTrailer);
         recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
@@ -138,7 +141,12 @@ public class DetailActivity extends AppCompatActivity {
         ArrayList<Review> reviews = JSONUtils.getReviewsFromJSON(jsonObjectReviews);
         reviewAdapter.setReviews(reviews);
         trailerAdapter.setTrailers(trailers);
-        scrollViewInfo.smoothScrollTo(0, 0);    
+        scrollViewInfo.smoothScrollTo(0, 0);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(DetailActivity.this, "Стой сейчас прогрузиться", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClickChangeFavorite(View view) {
