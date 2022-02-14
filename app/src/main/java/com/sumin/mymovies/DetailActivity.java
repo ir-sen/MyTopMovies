@@ -50,9 +50,6 @@ public class DetailActivity extends AppCompatActivity {
     private ReviewAdapter reviewAdapter;
     private TrailerAdapter trailerAdapter;
 
-
-
-
     private int id;
 
     private MainViewModel viewModel;
@@ -98,7 +95,6 @@ public class DetailActivity extends AppCompatActivity {
         textViewOverview = findViewById(R.id.textViewOverview);
         scrollViewInfo = findViewById(R.id.scrollViewInfo);
 
-
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("id")) {
             id = intent.getIntExtra("id", -1);
@@ -110,7 +106,6 @@ public class DetailActivity extends AppCompatActivity {
         movie = viewModel.getMovieById(id);
         try {
             Picasso.get().load(movie.getBigPosterPath()).into(imageViewBigPoster);
-
             textViewTitle.setText(movie.getTitle());
             textViewOriginalTitle.setText(movie.getOriginalTitle());
             textViewOverview.setText(movie.getOverview());
@@ -124,6 +119,7 @@ public class DetailActivity extends AppCompatActivity {
         reviewAdapter = new ReviewAdapter();
         trailerAdapter = new TrailerAdapter();
         trailerAdapter.setOnTrailerClickListener(new TrailerAdapter.OnTrailerClickListener() {
+            // неявным интнтом запускаем активитий (ютуб трейлер)
             @Override
             public void onTrailerClick(String url) {
                 Intent intentToTrailer = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -141,6 +137,7 @@ public class DetailActivity extends AppCompatActivity {
         ArrayList<Review> reviews = JSONUtils.getReviewsFromJSON(jsonObjectReviews);
         reviewAdapter.setReviews(reviews);
         trailerAdapter.setTrailers(trailers);
+        // при открытии начинать с верхней позиции
         scrollViewInfo.smoothScrollTo(0, 0);
         }
         catch (Exception e) {
@@ -160,7 +157,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         setFavoriteMovie();
     }
-
+// существует ли этот фильм в избранном
     private void setFavoriteMovie() {
         favoriteMovie = viewModel.getFavoriteMovieById(id);
         if (favoriteMovie == null) {

@@ -23,15 +23,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public MovieAdapter() {
         movies = new ArrayList<>();
     }
-
+    // создания для слушетеля клика на иконку фильма
     public interface OnPosterClickListener {
         void onPosterClick(int position);
     }
 
+    // при достижении конца нашего листа
     public interface OnReachEndListener {
         void onReachEnd();
     }
-
+    // создания сетора что бы обращаться
     public void setOnPosterClickListener(OnPosterClickListener onPosterClickListener) {
         this.onPosterClickListener = onPosterClickListener;
     }
@@ -43,16 +44,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_item,
+                viewGroup,
+                false);
         return new MovieViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder movieViewHolder, int i) {
+        // проверка при достижении конца списка
         if (movies.size() >= 20 && i > movies.size() - 4 && onReachEndListener != null) {
             onReachEndListener.onReachEnd();
         }
         Movie movie = movies.get(i);
+        // оплучения нашего при помощи picasso
         Picasso.get().load(movie.getPosterPath()).into(movieViewHolder.imageViewSmallPoster);
     }
 
@@ -68,6 +73,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewSmallPoster = itemView.findViewById(R.id.imageViewSmallPoster);
+            // слушатель иконки
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -88,7 +94,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         this.movies = movies;
         notifyDataSetChanged();
     }
-
+// для добавления элемента без надобности обновления всего массива
     public void addMovies(List<Movie> movies) {
         this.movies.addAll(movies);
         notifyDataSetChanged();
