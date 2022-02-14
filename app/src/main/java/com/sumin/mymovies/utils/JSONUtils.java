@@ -69,6 +69,7 @@ public class JSONUtils {
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_RESULTS);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObjectTrailers = jsonArray.getJSONObject(i);
+                // ссылка на youtube
                 String key = BASE_YOUTUBE_URL + jsonObjectTrailers.getString(KEY_KEY_OF_VIDEO);
                 String name = jsonObjectTrailers.getString(KEY_NAME);
                 Trailer trailer = new Trailer(key, name);
@@ -81,12 +82,15 @@ public class JSONUtils {
         return result;
     }
 
+// получения списка фильмов
     public static ArrayList<Movie> getMoviesFromJSON(JSONObject jsonObject) {
+        // получаем массив наших фильмов
         ArrayList<Movie> result = new ArrayList<>();
         if (jsonObject == null) {
             return result;
         }
         try {
+            // подставляем наши заначения которые были указаны
             JSONArray jsonArray = jsonObject.getJSONArray(KEY_RESULTS);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject objectMovie = jsonArray.getJSONObject(i);
@@ -95,11 +99,13 @@ public class JSONUtils {
                 String title = objectMovie.getString(KEY_TITLE);
                 String originalTitle = objectMovie.getString(KEY_ORIGINAL_TITLE);
                 String overview = objectMovie.getString(KEY_OVERVIEW);
+                // добавляем размер картинки разных постеров
                 String posterPath = BASE_POSTER_URL + SMALL_POSTER_SIZE + objectMovie.getString(KEY_POSTER_PATH);
                 String bigPosterPath = BASE_POSTER_URL + BIG_POSTER_SIZE + objectMovie.getString(KEY_POSTER_PATH);
                 String backdropPath = objectMovie.getString(KEY_BACKDROP_PATH);
                 double voteAverage = objectMovie.getDouble(KEY_VOTE_AVERAGE);
                 String releaseDate = objectMovie.getString(KEY_RELEASE_DATE);
+                // получаем фильм
                 Movie movie = new Movie(id, voteCount, title, originalTitle, overview, posterPath, bigPosterPath, backdropPath, voteAverage, releaseDate);
                 result.add(movie);
             }

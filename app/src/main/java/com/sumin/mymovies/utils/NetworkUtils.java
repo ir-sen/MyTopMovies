@@ -36,6 +36,7 @@ public class NetworkUtils {
 
 
 
+
     private static final String API_KEY = "3811dffbd8bc87f702dad54554f272a9";
     private static final String LANGUAGE_VALUE = "ru-RU";
     private static final String SORT_BY_POPULARITY = "popularity.desc";
@@ -45,7 +46,7 @@ public class NetworkUtils {
 
     public static final int POPULARITY = 0;
     public static final int TOP_RATED = 1;
-
+// add trailer in movie url youtube
     public static URL buildURLToVideos(int id) {
         Uri uri = Uri.parse(String.format(BASE_URL_VIDEOS, id)).buildUpon()
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
@@ -58,7 +59,7 @@ public class NetworkUtils {
         }
         return null;
     }
-
+// получения url отзывов
     public static URL buildURLToReviews(int id) {
         Uri uri = Uri.parse(String.format(BASE_URL_REVIEWS, id)).buildUpon()
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
@@ -83,6 +84,7 @@ public class NetworkUtils {
                 .appendQueryParameter(PARAMS_API_KEY, API_KEY)
                 .appendQueryParameter(PARAMS_LANGUAGE, LANGUAGE_VALUE)
                 .appendQueryParameter(PARAMS_SORT_BY, methodOfSort)
+                // сортировка рейтинга сколько по числи голосов
                 .appendQueryParameter(PARAMS_MIN_VOTE_COUNT, MIN_VOTE_COUNT_VALUE)
                 .appendQueryParameter(PARAMS_PAGE, Integer.toString(page))
                 .build();
@@ -93,7 +95,7 @@ public class NetworkUtils {
         }
         return result;
     }
-
+// get url and generate jsonObject
     public static JSONObject getJSONFromVideos(int id) {
         JSONObject result = null;
         URL url = buildURLToVideos(id);
@@ -106,7 +108,7 @@ public class NetworkUtils {
         }
         return result;
     }
-
+// получения отзывов
     public static JSONObject getJSONFromReviews(int id) {
         JSONObject result = null;
         URL url = buildURLToReviews(id);
@@ -133,7 +135,7 @@ public class NetworkUtils {
         }
         return result;
     }
-
+    // для подгрузки данных
     public static class JSONLoader extends AsyncTaskLoader<JSONObject> {
 
         private Bundle bundle;
@@ -146,7 +148,7 @@ public class NetworkUtils {
         public void setOnStartLoadingListener(OnStartLoadingListener onStartLoadingListener) {
             this.onStartLoadingListener = onStartLoadingListener;
         }
-
+        // присваеваем значения через bundle
         public JSONLoader(@NonNull Context context, Bundle bundle) {
             super(context);
             this.bundle = bundle;
@@ -203,7 +205,7 @@ public class NetworkUtils {
             return result;
         }
     }
-
+    // получаем jsonObject в АсинкТаске в другом потоке
     private static class JSONLoadTask extends AsyncTask<URL, Void, JSONObject> {
         @Override
         protected JSONObject doInBackground(URL... urls) {

@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+// слушатель MainActivity расширяем при помощи CallBacks
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<JSONObject> {
 
     private Switch switchSort;
@@ -78,10 +79,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return super.onOptionsItemSelected(item);
     }
-    
+    // расчитывание размера колонок
     private int getColumnCount() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // получения независимых пикселей
         int width = (int) (displayMetrics.widthPixels / displayMetrics.density);
         return width / 185 > 2 ? width / 185 : 2;
     }
@@ -97,10 +99,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         textViewTopRated = findViewById(R.id.textViewTopRated);
         progressBarLoading = findViewById(R.id.progressBarLoading);
         recyclerViewPosters = findViewById(R.id.recyclerViewPosters);
+        // разположения сеткой
         recyclerViewPosters.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
         movieAdapter = new MovieAdapter();
         recyclerViewPosters.setAdapter(movieAdapter);
         switchSort.setChecked(true);
+        // реализация свич прееключения
         switchSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -129,9 +133,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         LiveData<List<Movie>> moviesFromLiveData = viewModel.getMovies();
+        // id change data we add new data
         moviesFromLiveData.observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
+                // если нет интернета мы берем все данные из базы и устанавливаем их
                 if (page == 1) {
                     movieAdapter.setMovies(movies);
                 }
@@ -155,20 +161,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             textViewPopularity.setTextColor(getResources().getColor(R.color.white_color));
             methodOfSort = NetworkUtils.TOP_RATED;
         } else {
-            methodOfSort = NetworkUtils.POPULARITY;
             textViewPopularity.setTextColor(getResources().getColor(R.color.colorAccent));
             textViewTopRated.setTextColor(getResources().getColor(R.color.white_color));
+            methodOfSort = NetworkUtils.POPULARITY;
         }
         downloadData(methodOfSort, page);
     }
 
+
     private void downloadData(int methodOfSort, int page) {
         URL url = NetworkUtils.buildURL(methodOfSort, page);
+        // вставляем данные при помощи bundle()
         Bundle bundle = new Bundle();
         bundle.putString("url", url.toString());
         loaderManager.restartLoader(LOADER_ID, bundle, this);
     }
 
+    // загразка наших данных
     @NonNull
     @Override
     public Loader<JSONObject> onCreateLoader(int i, @Nullable Bundle bundle) {
@@ -182,11 +191,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
         return jsonLoader;
     }
-
+    // после загрузки добавления в базу данных
     @Override
     public void onLoadFinished(@NonNull Loader<JSONObject> loader, JSONObject jsonObject) {
         ArrayList<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
         if (movies != null && !movies.isEmpty()) {
+            // если есть интренет мы можем удалить старые данные и подгрузить новые
             if (page == 1) {
                 viewModel.deleteAllMovies();
                 movieAdapter.clear();

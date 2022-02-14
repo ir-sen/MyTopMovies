@@ -43,7 +43,7 @@ public class MainViewModel extends AndroidViewModel {
         }
         return null;
     }
-
+// livedata do it another stream (auto)
     public LiveData<List<FavoriteMovie>> getFavoriteMovie() {
         return favoriteMovie;
     }
@@ -71,7 +71,7 @@ public class MainViewModel extends AndroidViewModel {
     public void deleteFavoriteMovie(FavoriteMovie movie) {
         new DeleteFavoriteTask().execute(movie);
     }
-
+// all method we do it in another theater (stream)
     private static class DeleteFavoriteTask extends AsyncTask<FavoriteMovie, Void, Void> {
         @Override
         protected Void doInBackground(FavoriteMovie... movies) {
