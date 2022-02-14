@@ -113,11 +113,18 @@ public class NetworkUtils {
     }
 
     // get
-//    public static JSONObject getJSONFromSearch(String movie_name) {
-//        JSONObject result = null;
-//        URL url = build
-//
-//    }
+    public static JSONObject getJSONFromSearch(String movie_name) {
+        JSONObject result = null;
+        URL url = buildURLSearch(movie_name);
+        try {
+            result = new JSONLoadTask().execute(url).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 // get url and generate jsonObject
     public static JSONObject getJSONFromVideos(int id) {

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item  android:title="@string/item_main" android:id="@+id/itemMain"/>
     <item  android:title="@string/item_favorite" android:id="@+id/itemFavorite"/>
+    <item android:id="@+id/search_item_m"
+        android:title="search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
 </menu>
+

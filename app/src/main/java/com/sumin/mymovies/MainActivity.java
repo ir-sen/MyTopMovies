@@ -22,11 +22,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sumin.mymovies.adapters.MovieAdapter;
+import com.sumin.mymovies.adapters.SearchAdapter;
 import com.sumin.mymovies.data.MainViewModel;
 import com.sumin.mymovies.data.Movie;
 import com.sumin.mymovies.utils.JSONUtils;
@@ -79,6 +81,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intentToFavorite);
                 break;
 
+            case R.id.search_item_m:
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setQueryHint("Search movie");
+                final String[] movieSearch = {""};
+                Intent intentSearch = new Intent(this, SearchActivity.class);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        intentSearch.putExtra("KEY_SEARCH", query);
+                        startActivity(intentSearch);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
+                //intentSearch.putExtra("KEY_SEARCH", movieSearch[0]);
+                break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -95,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String url = buildURLSearch("Jack").toString();
-        Log.d("MY_TAG", url);
 
         loaderManager = LoaderManager.getInstance(this);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);

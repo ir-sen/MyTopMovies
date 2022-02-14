@@ -1,33 +1,31 @@
 package com.sumin.mymovies;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
 import com.sumin.mymovies.adapters.MovieAdapter;
-import com.sumin.mymovies.data.FavoriteMovie;
-import com.sumin.mymovies.data.MainViewModel;
+import com.sumin.mymovies.adapters.SearchAdapter;
 import com.sumin.mymovies.data.Movie;
+import com.sumin.mymovies.utils.JSONUtils;
+import com.sumin.mymovies.utils.NetworkUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class FavouriteActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewFavoriteMovies;
-    private MovieAdapter adapter;
-    private MainViewModel viewModel;
+    private RecyclerView recyclerView;
+    private SearchAdapter searchAdapter;
+    String search_movie = "";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,33 +77,38 @@ public class FavouriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourite);
-        recyclerViewFavoriteMovies = findViewById(R.id.recycleViewFavoriteMovies);
-        recyclerViewFavoriteMovies.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new MovieAdapter();
-        recyclerViewFavoriteMovies.setAdapter(adapter);
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        LiveData<List<FavoriteMovie>> favoriteMovies = viewModel.getFavoriteMovie();
-        favoriteMovies.observe(this, new Observer<List<FavoriteMovie>>() {
-            @Override
-            public void onChanged(@Nullable List<FavoriteMovie> favoriteMovies) {
-                List<Movie> movies = new ArrayList<>();
-                if (favoriteMovies != null) {
-                    movies.addAll(favoriteMovies);
-                    adapter.setMovies(movies);
-                }
-            }
-        });
+        setContentView(R.layout.activity_search);
+        Bundle arguments = getIntent().getExtras();
+        if(arguments != null) {
+            search_movie = arguments.get("KEY_SEARCH").toString();
+        }
+        recyclerView = findViewById(R.id.recyclerViewSearch);
+        searchAdapter = new SearchAdapter();
+        recyclerView.setLayoutManager(new GridLayoutManager(this, getColumnCount()));
+        JSONObject jsonObject = NetworkUtils.getJSONFromSearch(search_movie);
+        ArrayList<Movie> movies = JSONUtils.getMoviesFromJSON(jsonObject);
+        searchAdapter.setMovies(movies);
+        recyclerView.setAdapter(searchAdapter);
 
-        adapter.setOnPosterClickListener(new MovieAdapter.OnPosterClickListener() {
+        searchAdapter.setOnPosterClickListener(new MovieAdapter.OnPosterClickListener() {
             @Override
             public void onPosterClick(int position) {
-                Movie movie = adapter.getMovies().get(position);
-                Intent intent = new Intent(FavouriteActivity.this, DetailActivity.class);
+                Movie movie = searchAdapter.getMovies().get(position);
+                Intent intent = new Intent(SearchActivity.this, DetailActivity.class);
                 intent.putExtra("id", movie.getId());
                 startActivity(intent);
             }
         });
-
     }
+
+    private int getColumnCount() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // получения независимых пикселей
+        int width = (int) (displayMetrics.widthPixels / displayMetrics.density);
+        return width / 185 > 2 ? width / 185 : 2;
+    }
+
+
+
 }
