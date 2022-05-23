@@ -25,13 +25,16 @@
         android:id="@+id/imageViewAddToFavorite"
         android:layout_width="@dimen/size_of_star_land"
         android:layout_height="@dimen/size_of_star_land"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="324dp"
+        android:layout_marginTop="324dp"
+        android:layout_marginEnd="44dp"
+        android:contentDescription="@string/add_to_favorite"
         android:onClick="onClickChangeFavorite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/scrollViewInfo"
         app:layout_constraintLeft_toLeftOf="@+id/imageViewBigPoster"
         app:layout_constraintTop_toTopOf="@+id/imageViewBigPoster"
-        android:contentDescription="@string/add_to_favorite"
+        app:layout_constraintVertical_bias="0.404"
         app:srcCompat="@drawable/favourite_remove" />
 
     <ScrollView
@@ -39,16 +42,15 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewBigPoster"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
-    <include
-        layout="@layout/movie_info"
-        android:id="@+id/movieInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/movieInfo"
+            layout="@layout/movie_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </ScrollView>
 

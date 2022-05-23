@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity(tableName = "movies")
 public class Movie {
     @PrimaryKey(autoGenerate = true)
-    private int uniqueId;
+    private int uniqueId; // для сортирования элемента по мере добавления
     private int id;
     private int voteCount;
     private String title;
