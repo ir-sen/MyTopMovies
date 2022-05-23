@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -142,6 +143,7 @@ public class DetailActivity extends AppCompatActivity {
         }
         catch (Exception e) {
             e.printStackTrace();
+            Log.d("MY_TAG", e.toString());
             Toast.makeText(DetailActivity.this, "Стой сейчас прогрузиться", Toast.LENGTH_SHORT).show();
         }
     }

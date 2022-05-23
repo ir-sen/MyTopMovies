@@ -191,7 +191,7 @@ public class NetworkUtils {
             if (onStartLoadingListener != null) {
                 onStartLoadingListener.onStartLoading();
             }
-            forceLoad();
+            forceLoad(); // продолжить загрузку
         }
 
         @Nullable
